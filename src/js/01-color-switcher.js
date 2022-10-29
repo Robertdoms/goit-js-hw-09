@@ -18,3 +18,10 @@ refs.startBtn.addEventListener('click', () => {
   refs.startBtn.disabled = true;
   refs.stopBtn.disabled = false;
 });
+
+refs.stopBtn.addEventListener('click', () => {
+  clearInterval(timerId);
+  console.log(`take a brake`);
+  refs.stopBtn.disabled = true;
+  refs.startBtn.disabled = false;
+});
