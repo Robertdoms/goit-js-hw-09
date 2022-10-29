@@ -6,3 +6,15 @@ const refs = {
   startBtn: document.querySelector('button[data-start]'),
   stopBtn: document.querySelector('button[data-stop]'),
 };
+
+let timerId = null;
+
+refs.startBtn.addEventListener('click', () => {
+  timerId = setInterval(() => {
+    console.log('lets party started');
+    refs.body.style.backgroundColor = getRandomHexColor();
+  }, 1000);
+
+  refs.startBtn.disabled = true;
+  refs.stopBtn.disabled = false;
+});
