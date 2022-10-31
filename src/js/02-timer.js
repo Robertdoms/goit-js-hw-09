@@ -36,5 +36,26 @@ flatpickr(refs.timerInput, options);
 let timerId = null;
 function onStartBtnClick() {
   const inputDate = new Date(refs.timerInput.value);
+
   refs.timerStartBtn.disabled = true;
+
+  timerId = setInterval(() => {
+    const timeSubtraction = inputDate - new Date();
+    const time = convertMs(timeSubtraction);
+    console.log(convertMs(timeSubtraction));
+    updateTextComponent(time);
+    if (timeSubtraction < 1000) {
+      clearInterval(timerId);
+      Notify.info('Time is up');
+    }
+  }, 1000);
 }
+
+function updateTextComponent({ days, hours, minutes, seconds }) {
+  refs.timerDays.textContent = days;
+  refs.timerHours.textContent = hours;
+  refs.timerMinutes.textContent = minutes;
+  refs.timerSeconds.textContent = seconds;
+}
+
+refs.timerStartBtn.disabled = true;
