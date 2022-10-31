@@ -8,11 +8,39 @@ const refs = {
   btn: document.querySelector('button'),
 };
 
+refs.form.addEventListener('submit', onSubmit);
+
+function onSubmit(evt) {
+  evt.preventDefault();
+  const inputAmount = refs.amount.value;
+  const inputDelayNumber = Number(refs.delay.value);
+  const inputStepNumber = Number(refs.step.value);
+  setTimeout(() => {
+    for (let i = 0; i < inputAmount; i += 1) {
+      let msCount = inputDelayNumber + inputStepNumber * i;
+      const position = i + 1;
+      createPromise(position, msCount)
+        .then(({ position, delay }) => {
+          console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+          Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        })
+        .catch(({ position, delay }) => {
+          console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+          Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+        });
+    }
+  }, inputDelayNumber);
+}
+
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
 }
